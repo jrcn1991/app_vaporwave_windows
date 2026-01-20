@@ -2,35 +2,35 @@
     "janelas": {
         "janela1": {
             "caminho_template": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/Bersek.png",
-            "caminho_imagem": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img1\\Sx9.gif",
+            "caminho_imagem": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img1\\c32d93b8fd84f270d94b838d5e6ebbe4.gif",
             "pasta_imagens": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img1",
             "modo_loop": true,
             "intervalo": 5,
             "ordem": "alfabetica",
-            "tipo_animacao": "wipe_right",
+            "tipo_animacao": "fade",
             "transparente": true,
             "manter_proporcao": true,
-            "pos_x": -951,
-            "pos_y": 412,
+            "pos_x": -844,
+            "pos_y": 388,
             "largura": 647,
             "altura": 558,
-            "z_order": 55
+            "z_order": 59
         },
         "janela2": {
             "caminho_template": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/Doh.png",
-            "caminho_imagem": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img2\\01d85241578210bd5e4d1609d869b774.gif",
+            "caminho_imagem": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img2\\511873829447c8db6ce9083833723977.gif",
             "pasta_imagens": "E:\\GIT Pessoal\\app_vaporwave_windows\\data\\img2",
             "modo_loop": true,
             "intervalo": 5,
             "ordem": "alfabetica",
-            "tipo_animacao": "wipe_bottom",
+            "tipo_animacao": "fade",
             "transparente": true,
             "manter_proporcao": true,
-            "pos_x": -881,
-            "pos_y": 88,
+            "pos_x": -759,
+            "pos_y": 50,
             "largura": 494,
             "altura": 388,
-            "z_order": 54
+            "z_order": 58
         },
         "janela3": {
             "caminho_template": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/Daftpunk.png",
@@ -39,7 +39,7 @@
             "modo_loop": true,
             "intervalo": 5,
             "ordem": "alfabetica",
-            "tipo_animacao": "wipe_top",
+            "tipo_animacao": "fade",
             "transparente": true,
             "manter_proporcao": true,
             "pos_x": -1702,
@@ -48,9 +48,9 @@
             "altura": 477,
             "z_order": 50
         },
-        "janela5": {
-            "caminho_template": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/Tema_WinXP_Social.jpg",
-            "caminho_imagem": "E:/GIT Pessoal/app_vaporwave_windows/data/img1/c32d93b8fd84f270d94b838d5e6ebbe4.gif",
+        "janela4": {
+            "caminho_template": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/Tema_WinXP_Help.png",
+            "caminho_imagem": "E:/GIT Pessoal/app_vaporwave_windows/data/templates/46e4d918-0175-4fa0-a079-b4e0d2fd9635.png",
             "pasta_imagens": null,
             "modo_loop": false,
             "intervalo": 5,
@@ -58,11 +58,11 @@
             "tipo_animacao": "fade",
             "transparente": true,
             "manter_proporcao": true,
-            "pos_x": -1423,
-            "pos_y": 56,
-            "largura": 378,
-            "altura": 407,
-            "z_order": 56
+            "pos_x": -1304,
+            "pos_y": 70,
+            "largura": 380,
+            "altura": 377,
+            "z_order": 60
         }
     },
     "janelas_moviveis": true

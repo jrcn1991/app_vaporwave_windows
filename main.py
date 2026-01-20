@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap, QImage, QMovie, QIcon, QAction, QKeySequence, QPainter, QPen, QColor, QPolygon
 from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QRect, QPoint, QPointF
 from animacoes import executar_animacao
+from painel import PainelControle
 
 CONFIG_PATH = "config.json"
 LOG_PATH = "app.log"
@@ -230,7 +231,6 @@ class JanelaComChroma(QWidget):
         self.passo = 10
         self.offset_x = 0
         self.offset_y = 0
-        self.primeira_troca = True
         self.z_order = int(cfg.get("z_order", 0))  # Ordem de camada
 
         # mantém cópia base do template para evitar perda de qualidade
@@ -244,6 +244,7 @@ class JanelaComChroma(QWidget):
         self.label_overlay = QLabel(self)
         self.label_overlay.setAttribute(Qt.WA_TranslucentBackground, True)
         self.opacity_effect = QGraphicsOpacityEffect(self.label_overlay)
+        self.opacity_effect.setOpacity(1.0)  # Define opacidade inicial como 100%
         self.label_overlay.setGraphicsEffect(self.opacity_effect)
 
         self.label_template = QLabel(self)
@@ -387,7 +388,7 @@ class JanelaComChroma(QWidget):
             lista.sort()
         self.lista_imagens = lista
         self.index_imagem = 0
-        self.primeira_troca = True
+        # Carrega a primeira imagem diretamente, sem animação
         self._trocar_para(lista[self.index_imagem], usar_fade=False)
         self.timer.start(self.intervalo * 1000)
 
@@ -401,8 +402,8 @@ class JanelaComChroma(QWidget):
             else:
                 self.lista_imagens.sort()
             self.index_imagem = 0
-        self._trocar_para(self.lista_imagens[self.index_imagem], usar_fade=not self.primeira_troca)
-        self.primeira_troca = False
+        # Todas as trocas no loop devem ter animação
+        self._trocar_para(self.lista_imagens[self.index_imagem], usar_fade=True)
 
     def _trocar_para(self, caminho, usar_fade=True):
         if not usar_fade:
@@ -502,6 +503,7 @@ class AppManager:
         self.cfg = carregar_config()
         self.janelas = {}  # nome -> JanelaComChroma
         self.janelas_moviveis = self.cfg.get("janelas_moviveis", False)  # Global: padrão fixado
+        self.painel_controle = None  # Instância do painel de controle
         AppManager._inst = self
 
         # tray
@@ -511,6 +513,7 @@ class AppManager:
         self.tray.setToolTip("vaporwave_window")
         self.menu = QMenu()
 
+        self.act_painel = QAction("Painel", self.menu); self.act_painel.triggered.connect(self.abrir_painel)
         self.act_new = QAction("Nova Janela", self.menu); self.act_new.triggered.connect(self.criar_via_dialog)
         self.act_edit = QAction("Editar Janela Atual", self.menu); self.act_edit.triggered.connect(self.editar_atual)
         self.act_del = QAction("Excluir Janela Atual", self.menu); self.act_del.triggered.connect(self.excluir_atual)
@@ -519,6 +522,8 @@ class AppManager:
         self.act_about = QAction("Sobre", self.menu); self.act_about.triggered.connect(self.show_about)
         self.act_quit = QAction("Sair", self.menu); self.act_quit.triggered.connect(self.sair)
 
+        self.menu.addAction(self.act_painel)
+        self.menu.addSeparator()
         self.menu.addAction(self.act_new)
         self.menu.addAction(self.act_edit)
         self.menu.addAction(self.act_del)
@@ -533,6 +538,7 @@ class AppManager:
         self.tray.show()
 
         # Definir ícones minimalistas brancos para as ações
+        self.act_painel.setIcon(criar_icone_branco("novo"))
         self.act_new.setIcon(criar_icone_branco("novo"))
         self.act_edit.setIcon(criar_icone_branco("editar"))
         self.act_del.setIcon(criar_icone_branco("excluir"))
@@ -548,6 +554,15 @@ class AppManager:
 
     @classmethod
     def instance(cls): return cls._inst
+
+    def abrir_painel(self):
+        """Abre ou traz para frente o painel de controle"""
+        if self.painel_controle is None or not self.painel_controle.isVisible():
+            self.painel_controle = PainelControle(self)
+            self.painel_controle.show()
+        else:
+            self.painel_controle.activateWindow()
+            self.painel_controle.recarregar()
 
     def carregar_todas(self):
         if not self.cfg.get("janelas"):
@@ -733,6 +748,10 @@ class AppManager:
         self.cfg["janelas"][nome] = novo
         salvar_config(self.cfg)
         self._instanciar(nome, novo)
+        
+        # Recarregar painel se aberto
+        if self.painel_controle and self.painel_controle.isVisible():
+            QTimer.singleShot(100, self.painel_controle.recarregar)
 
     # editar via diálogo
     def editar_via_dialog(self, w: JanelaComChroma):
@@ -773,6 +792,10 @@ class AppManager:
         
         # Recriar janela com nova configuração
         self._instanciar(nome_janela, novo_config)
+        
+        # Recarregar painel se aberto
+        if self.painel_controle and self.painel_controle.isVisible():
+            QTimer.singleShot(100, self.painel_controle.recarregar)
 
     def janela_atual(self) -> JanelaComChroma | None:
         aw = QApplication.activeWindow()
@@ -797,6 +820,10 @@ class AppManager:
         if nome in self.cfg["janelas"]:
             del self.cfg["janelas"][nome]
             salvar_config(self.cfg)
+        
+        # Recarregar painel se aberto
+        if self.painel_controle and self.painel_controle.isVisible():
+            QTimer.singleShot(100, self.painel_controle.recarregar)
 
     def toggle_move_atual(self):
         # Alternar estado global
