@@ -1,0 +1,11 @@
+[2026-01-20 10:49:50,370] INFO: Aplicação iniciada com 4 janela(s)
+[2026-01-20 10:50:01,439] WARNING: Falha ao carregar janela4: [janela4] Área verde não detectada no template.
+[2026-01-20 10:50:01,501] INFO: Aplicação iniciada com 4 janela(s) carregada(s) e 1 janela(s) falhada(s)
+[2026-01-20 10:52:01,685] WARNING: Falha ao carregar janela4: [janela4] Área verde não detectada no template.
+[2026-01-20 10:52:38,962] WARNING: Falha ao carregar janela4: [janela4] Área verde não detectada no template.
+[2026-01-20 10:52:59,098] INFO: Aplicação iniciada com 4 janela(s) carregada(s) e 1 janela(s) processada(s)
+[2026-01-20 10:53:55,295] WARNING: Falha ao carregar janela4: [janela4] Área verde não detectada no template.
+[2026-01-20 10:56:06,025] WARNING: Falha ao carregar janela4: [janela4] Área verde não detectada no template.
+[2026-01-20 10:56:12,506] INFO: janela4 foi removida do config
+[2026-01-20 10:56:12,508] INFO: Aplicação iniciada com 4 janela(s) carregada(s) e 1 janela(s) processada(s)
+[2026-01-20 10:58:27,086] INFO: Aplicação iniciada com 4 janela(s) carregada(s) e 0 janela(s) processada(s)
